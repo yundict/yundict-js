@@ -1,7 +1,7 @@
 import Yundict from "../src";
 
 // Load API token from environment variable
-const API_TOKEN = process.env.API_TOKEN;
+const API_TOKEN = process.env.YUNDICT_API_TOKEN;
 
 if (!API_TOKEN) {
   throw new Error("API_TOKEN is not set");
