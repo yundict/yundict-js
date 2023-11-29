@@ -14,13 +14,14 @@ test("Fetch team", async () => {
   expect(res.data?.name).toBe(name);
 });
 
-// test("Create team", async () => {
-//   const res = await yundict.teams.create({
-//     name: "test-team",
-//     displayName: "Test Team"
-//   });
-//   expect(res.success).toBe(true);
-// });
+test("Create team", async () => {
+  const res = await yundict.teams.create({
+    name: "test-team",
+    displayName: "Test Team"
+  });
+  expect(res.success).toBe(false);
+  expect(res.message).toBe('team already exist');
+});
 
 test("Update team", async () => {
   const name = "test-team";
