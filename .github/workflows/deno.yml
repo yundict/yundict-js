@@ -23,4 +23,6 @@ jobs:
           bun-version: latest
 
       - name: Run tests
+        env:
+          YUNDICT_API_TOKEN: ${{ secrets.YUNDICT_API_TOKEN }}
         run: bun test
