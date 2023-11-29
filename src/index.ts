@@ -1,24 +1,28 @@
+import Teams from "./apis/teams";
 import { APIResponse } from "./types/response";
-import Team from "./types/team";
 
 interface YundictConfig {
   apiToken: string,
 }
 
-const API_ENDPOINT = "http://api.yundict.com";
+const API_ENDPOINT = "http://8.130.25.130";
 
 export default class Yundict {
 
   config: YundictConfig;
 
+  // apis
+  teams: Teams;
+
   constructor(config: YundictConfig) {
     this.config = config;
+    this.teams = new Teams(this);
   }
 
   async request(path: string, options?: RequestInit) {
     const accessToken = this.config.apiToken;
 
-    console.log(`[API] request ${API_ENDPOINT + path} | accessToken: ${accessToken?.slice(0, 20)}...`)
+    console.log(`[API] request ${API_ENDPOINT + path} | accessToken: ${accessToken?.slice(0, 10)}...`)
 
     if (!accessToken) {
       return Promise.reject(new Error('No access token'))
@@ -42,28 +46,4 @@ export default class Yundict {
     return await res.json() as APIResponse
   }
 
-  async teams() {
-    return await this.request('/teams') as APIResponse<Team[]>;
-  }
-
-  async team(name: string) {
-    return await this.request(`/teams/${name}`) as APIResponse<Team>;
-  }
-
-  async createTeam(params: { name: string; displayName: string; }) {
-    return await this.request(`/teams`, { method: 'POST', body: JSON.stringify(params) });
-  }
-
-  async updateTeam(name: string, params: {
-    displayName?: string;
-    description?: string;
-    baseLanguageISO?: string;
-    languagesISO?: string[];
-  }) {
-    return await this.request(`/teams/${name}`, { method: 'PATCH', body: JSON.stringify(params) });
-  }
-
-  async deleteTeam(name: string) {
-    return await this.request(`/teams/${name}`, { method: 'DELETE' }) as APIResponse
-  }
 }
