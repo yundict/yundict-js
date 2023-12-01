@@ -1,3 +1,4 @@
+import Keys from "./apis/keys";
 import Projects from "./apis/projects";
 import Teams from "./apis/teams";
 import { APIResponse } from "./types/response";
@@ -25,11 +26,13 @@ export default class Yundict {
   // apis
   teams: Teams;
   projects: Projects;
+  keys: Keys;
 
   constructor(config: YundictConfig) {
     this.config = config;
     this.teams = new Teams(this);
     this.projects = new Projects(this);
+    this.keys = new Keys(this);
   }
 
   async request(path: string, options?: RequestInit) {

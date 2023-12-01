@@ -28,6 +28,7 @@ test("Update team", async () => {
   const res = await yundict.teams.update(name, {
     displayName: "Test Team 2"
   });
+  console.log(res);
   expect(res.success).toBe(true);
 });
 

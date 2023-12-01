@@ -1,11 +1,6 @@
 import Yundict from "..";
-import { Project } from "../types/project";
+import { Project, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
-
-interface ProjectResourceQuery {
-  team: string,
-  project: string
-}
 
 export default class Projects {
 

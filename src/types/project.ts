@@ -24,3 +24,8 @@ export interface ProjectKey {
   tags?: string[];
   translations?: ProjectKeyTranslation[];
 }
+
+export interface ProjectResourceQuery {
+  team: string,
+  project: string
+}
