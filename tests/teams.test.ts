@@ -16,7 +16,7 @@ test("Fetch team", async () => {
 
 test("Create team", async () => {
   const res = await yundict.teams.create({
-    name: "test-team",
+    name: "cRFA5urX",
     displayName: "Test Team"
   });
   expect(res.success).toBe(false);
@@ -24,11 +24,10 @@ test("Create team", async () => {
 });
 
 test("Update team", async () => {
-  const name = "test-team";
+  const name = "cRFA5urX";
   const res = await yundict.teams.update(name, {
     displayName: "Test Team 2"
   });
-  console.log(res);
   expect(res.success).toBe(true);
 });
 
