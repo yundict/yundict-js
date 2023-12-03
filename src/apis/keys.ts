@@ -37,7 +37,7 @@ export default class Keys {
     })) as APIResponse<ProjectKey[]>;
   }
 
-  async edit({ team, project, key }: ProjectResourceQuery & { key: string }, data: ProjectKey) {
+  async update({ team, project, key }: ProjectResourceQuery & { key: string }, data: ProjectKey) {
     return (await this.client.request(`/teams/${team}/projects/${project}/keys/${key}`, {
       method: 'PATCH',
       body: JSON.stringify(data)
