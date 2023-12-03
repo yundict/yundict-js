@@ -37,6 +37,12 @@ test("Update key", async () => {
   expect(res.data?.tags).toContain('testTag');
 });
 
+test("Export keys", async () => {
+  const res = await yundict.keys.export({ team: TEST_TEAM_NAME, project: TEST_PROJECT_NAME, type: "json" })
+  expect(res.success).toBeTrue();
+  expect(res.data).toStartWith("http");
+});
+
 test("Delete key", async () => {
   const res = await yundict.keys.delete({ team: TEST_TEAM_NAME, project: TEST_PROJECT_NAME, key: "existed-key" })
   expect(res.success).toBeTrue();

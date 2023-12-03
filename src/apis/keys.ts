@@ -2,7 +2,7 @@ import Yundict from "..";
 import { Project, ProjectKey, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
 
-interface fetchProjectKeysParams {
+interface FetchProjectKeysParams {
   keyword?: string;
   tags?: string[];
   sort?: string;
@@ -18,7 +18,7 @@ export default class Keys {
     this.client = client;
   }
 
-  async all({ team, project, ...args }: ProjectResourceQuery & fetchProjectKeysParams) {
+  async all({ team, project, ...args }: ProjectResourceQuery & FetchProjectKeysParams) {
     const { keyword, tags, sort, page = 1, limit = 20 } = args ?? {}
     const params = new URLSearchParams()
     if (keyword) params.append('keyword', keyword)
@@ -48,4 +48,17 @@ export default class Keys {
     return (await this.client.request(`/teams/${team}/projects/${project}/keys/${key}`, { method: 'DELETE' })) as APIResponse;
   }
 
+  async export({ team, project, ...args }: ProjectResourceQuery & {
+    languages?: string[];
+    tags?: string[];
+    type: string
+  }) {
+    const { languages, tags, type } = args ?? {}
+    const params = new URLSearchParams()
+    if (languages) params.append('languages', languages.join(','))
+    if (tags) params.append('tags', tags.join(','))
+    if (type) params.append('type', type)
+    const res = await this.client.request(`/teams/${team}/projects/${project}/keys/export}`);
+    return res as APIResponse<string>;
+  }
 }
