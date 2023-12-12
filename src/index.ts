@@ -14,7 +14,7 @@ interface YundictConfig {
   apiToken: string,
 }
 
-const API_ENDPOINT = "http://8.130.25.130";
+const API_ENDPOINT = "https://api.yundict.com";
 
 /**
  * Yundict API Client
