@@ -55,8 +55,8 @@ export default class Keys {
   }) {
     const { languages, tags, type } = args ?? {}
     const params = new URLSearchParams()
-    if (languages) params.append('languages', languages.join(','))
-    if (tags) params.append('tags', tags.join(','))
+    if (languages && languages.length > 0) params.append('languages', languages.join(','))
+    if (tags && tags.length > 0) params.append('tags', tags.join(','))
     if (type) params.append('type', type)
     const res = await this.client.request(`/teams/${team}/projects/${project}/keys/export?${params.toString()}`);
     return res as APIResponse<string>;
