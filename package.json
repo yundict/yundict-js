@@ -2,6 +2,9 @@
   "name": "yundict",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
