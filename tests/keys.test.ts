@@ -42,6 +42,26 @@ test("Update key", async () => {
   expect(res.data?.tags).toContain('testTag');
 });
 
+test("Import Keys", async () => {
+  const res = await yundict.keys.import({
+    team: TEST_TEAM_NAME,
+    project: TEST_PROJECT_NAME,
+    language: 'zh',
+    tags: ['taga', 'tagb'],
+    overwrite: true,
+    data: new Blob([JSON.stringify({
+      [TEST_KEY_NAME]: "你好"
+    })], {
+      type: "application/json"
+    })
+  });
+
+  expect(res.success).toBeTrue();
+  expect(res.data?.total).toBe(1);
+});
+
+
+
 test("Export keys", async () => {
   const res = await yundict.keys.export({
     team: TEST_TEAM_NAME,
@@ -51,20 +71,6 @@ test("Export keys", async () => {
   })
   expect(res.success).toBeTrue();
   expect(res.data).toStartWith("http");
-});
-
-test("Import Keys", async () => {
-  const res = await yundict.keys.import({
-    team: TEST_TEAM_NAME,
-    project: TEST_PROJECT_NAME,
-    language: 'zh',
-    tags: ['taga', 'tagb'],
-    overwrite: true,
-    data: new Blob(['{"test-key": "你好"}']),
-  });
-
-  expect(res.success).toBeTrue();
-  expect(res.data?.total).toBe(1);
 });
 
 
