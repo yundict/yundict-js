@@ -63,20 +63,21 @@ export default class Keys {
     return res as APIResponse<string>;
   }
 
-  async import({ team, project, language, data, tags = [], overwrite = false }: ProjectResourceQuery & {
+  async import({ team, project, language, file, fileName, tags = [], overwrite = false }: ProjectResourceQuery & {
     language: string;
     tags?: string[];
     overwrite?: boolean;
-    data: Blob;
+    file: File | Blob;
+    fileName: string;
   }) {
     const formData = new FormData();
     formData.set('tags', tags.join(','));
     formData.set('language', language);
     formData.set('overwrite', overwrite.toString());
-    formData.append('file', data, 'zh.json');
+    formData.append('file', file, fileName);
     const res = await this.client.request(`/teams/${team}/projects/${project}/keys/import`, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
     return res as APIResponse<{ total: number }>;
   }

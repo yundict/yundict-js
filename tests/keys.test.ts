@@ -47,13 +47,13 @@ test("Import Keys", async () => {
     language: 'zh',
     tags: ['taga', 'tagb'],
     overwrite: true,
-    data: new Blob([JSON.stringify({
+    file: new Blob([JSON.stringify({
       [TEST_KEY_NAME]: "你好"
     })], {
       type: "application/json"
-    })
+    }),
+    fileName: "test.json"
   });
-  console.log("keys import res: ", res);
   expect(res.success).toBeTrue();
   expect(res.data?.total).toBe(1);
 });

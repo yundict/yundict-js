@@ -47,7 +47,7 @@ export default class Yundict {
     let headers = new Headers(options?.headers);
 
     // Content-Type
-    if (!options?.method || options.method !== 'GET') {
+    if (options?.body && typeof options.body === 'string') {
       headers.append("Content-Type", "application/json");
     }
 
