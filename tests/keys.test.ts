@@ -1,9 +1,7 @@
 import { expect, test } from "bun:test";
-import { yundict } from "./client";
+import { yundict, TEST_KEY_NAME, TEST_PROJECT_NAME, TEST_TEAM_NAME } from "./client";
 
-const TEST_TEAM_NAME = "cRFA5urX";
-const TEST_PROJECT_NAME = "test-project";
-const TEST_KEY_NAME = 'test-key';
+
 
 test("Fetch all keys", async () => {
   const res = await yundict.keys.all({ team: TEST_TEAM_NAME, project: TEST_PROJECT_NAME })

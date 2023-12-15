@@ -1,8 +1,5 @@
 import { expect, test } from "bun:test";
-import { yundict } from "./client";
-
-const TEST_TEAM_NAME = "cRFA5urX";
-const TEST_PROJECT_NAME = "test-project";
+import { yundict, TEST_PROJECT_NAME, TEST_TEAM_NAME } from "./client";
 
 test("Fetch projects", async () => {
   const res = await yundict.projects.all({ team: TEST_TEAM_NAME });

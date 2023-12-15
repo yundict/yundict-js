@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { yundict } from "./client";
+import { yundict, TEST_TEAM_NAME } from "./client";
 
 test("Fetch teams", async () => {
   const res = await yundict.teams.all()
@@ -8,7 +8,7 @@ test("Fetch teams", async () => {
 });
 
 test("Fetch team", async () => {
-  const name = "cRFA5urX";
+  const name = TEST_TEAM_NAME;
   const res = await yundict.teams.get(name)
   expect(res.success).toBe(true);
   expect(res.data?.name).toBe(name);
@@ -16,7 +16,7 @@ test("Fetch team", async () => {
 
 test("Create team", async () => {
   const res = await yundict.teams.create({
-    name: "cRFA5urX",
+    name: TEST_TEAM_NAME,
     displayName: "Test Team"
   });
   expect(res.success).toBe(false);
@@ -24,7 +24,7 @@ test("Create team", async () => {
 });
 
 test("Update team", async () => {
-  const name = "cRFA5urX";
+  const name = TEST_TEAM_NAME;
   const res = await yundict.teams.update(name, {
     displayName: "Test Team 2"
   });
