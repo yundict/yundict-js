@@ -1,5 +1,6 @@
+import { ReadStream } from "fs";
 import Yundict from "..";
-import { Project, ProjectKey, ProjectResourceQuery } from "../types/project";
+import { ProjectKey, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
 
 interface FetchProjectKeysParams {
@@ -61,4 +62,23 @@ export default class Keys {
     const res = await this.client.request(`/teams/${team}/projects/${project}/keys/export?${params.toString()}`);
     return res as APIResponse<string>;
   }
+
+  async import({ team, project, language, data, tags = [], overwrite = false }: ProjectResourceQuery & {
+    language: string;
+    tags?: string[];
+    overwrite?: boolean;
+    data: Blob;
+  }) {
+    const formData = new FormData();
+    formData.set('tags', tags.join(','));
+    formData.set('language', language);
+    formData.set('overwrite', overwrite.toString());
+    formData.append('file', data, 'zh.json');
+    const res = await this.client.request(`/teams/${team}/projects/${project}/keys/import`, {
+      method: 'POST',
+      body: formData
+    });
+    return res as APIResponse<{ total: number }>;
+  }
+
 }

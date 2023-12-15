@@ -53,6 +53,21 @@ test("Export keys", async () => {
   expect(res.data).toStartWith("http");
 });
 
+test("Import Keys", async () => {
+  const res = await yundict.keys.import({
+    team: TEST_TEAM_NAME,
+    project: TEST_PROJECT_NAME,
+    language: 'zh',
+    tags: ['taga', 'tagb'],
+    overwrite: true,
+    data: new Blob(['{"test-key": "你好"}']),
+  });
+
+  expect(res.success).toBeTrue();
+  expect(res.data?.total).toBe(1);
+});
+
+
 test("Delete key", async () => {
   const res = await yundict.keys.delete({ team: TEST_TEAM_NAME, project: TEST_PROJECT_NAME, key: TEST_KEY_NAME })
   expect(res.success).toBeTrue();
