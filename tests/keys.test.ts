@@ -55,7 +55,7 @@ test("Import Keys", async () => {
       type: "application/json"
     })
   });
-
+  console.log("keys import res: ", res);
   expect(res.success).toBeTrue();
   expect(res.data?.total).toBe(1);
 });
