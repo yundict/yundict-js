@@ -6,7 +6,7 @@ import { APIResponse } from "./types/response";
 /**
  * Yundict API Client Config
  */
-interface YundictConfig {
+export interface YundictConfig {
 
   /**
    * API Token
@@ -14,13 +14,19 @@ interface YundictConfig {
   apiToken: string,
 }
 
-const API_ENDPOINT = "https://api.yundict.com";
-
 /**
  * Yundict API Client
  */
 export default class Yundict {
 
+  /**
+   * API Endpoint
+   */
+  API_ENDPOINT = "https://api.yundict.com";
+
+  /**
+   * API Client Config
+   */
   config: YundictConfig;
 
   // apis
@@ -28,6 +34,10 @@ export default class Yundict {
   projects: Projects;
   keys: Keys;
 
+  /**
+   * Create a new API Client
+   * @param config API Client Config
+   */
   constructor(config: YundictConfig) {
     this.config = config;
     this.teams = new Teams(this);
@@ -38,7 +48,7 @@ export default class Yundict {
   async request(path: string, options?: RequestInit) {
     const apiToken = this.config.apiToken;
 
-    console.log(`[API] request ${API_ENDPOINT + path}`)
+    console.log(`[API] request ${this.API_ENDPOINT + path}`)
 
     if (!apiToken) {
       return Promise.reject(new Error('No access token'))
@@ -56,7 +66,7 @@ export default class Yundict {
       headers.append("x-api-token", apiToken);
     }
 
-    const res = await fetch(API_ENDPOINT + path, {
+    const res = await fetch(this.API_ENDPOINT + path, {
       ...options,
       headers
     });
