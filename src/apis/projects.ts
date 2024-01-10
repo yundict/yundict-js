@@ -43,4 +43,8 @@ export default class Projects {
   async delete({ team, project }: ProjectResourceQuery) {
     return await this.client.request(`/teams/${team}/projects/${project}`, { method: 'DELETE' });
   }
+
+  async tags(teamName: string, projectName: string) {
+    return await this.client.request(`/teams/${teamName}/projects/${projectName}/keys/tags`) as APIResponse<string[]>;
+  }
 }

@@ -1,8 +1,10 @@
 {
   "name": "yundict",
+  "main": "src/index.ts",
   "module": "src/index.ts",
-  "type": "module",
   "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./dist",
+    "build:declaration": "tsc --emitDeclarationOnly",
     "test": "bun test"
   },
   "peerDependencies": {

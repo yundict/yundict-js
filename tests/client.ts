@@ -11,5 +11,5 @@ if (!API_TOKEN) {
 }
 
 export const yundict = new Yundict({
-  apiToken: API_TOKEN
+  token: API_TOKEN
 });

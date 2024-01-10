@@ -82,4 +82,17 @@ export default class Keys {
     return res as APIResponse<{ total: number }>;
   }
 
+  async history({ teamName, projectName, keyName, languageISO }:
+    { teamName: string, projectName: string, keyName: string, languageISO: string }) {
+    const res = await this.client.request(`/teams/${teamName}/projects/${projectName}/keys/${keyName}/history?languageISO=${languageISO}`);
+    return res as APIResponse<{
+      content: string,
+      createdAt: string,
+      user: {
+        displayName: string,
+        email: string,
+        photo: string,
+      }
+    }[]>;
+  }
 }

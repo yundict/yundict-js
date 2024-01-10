@@ -4,5 +4,5 @@ import { yundict } from "./client";
 
 test("Initialize", () => {
   expect(yundict).toBeInstanceOf(Yundict);
-  expect(yundict.config.apiToken).toBe(process.env.YUNDICT_API_TOKEN!);
+  expect(yundict.config.token).toBe(process.env.YUNDICT_API_TOKEN!);
 });

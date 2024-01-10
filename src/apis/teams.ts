@@ -23,6 +23,7 @@ export default class Teams {
   }
 
   async update(name: string, params: {
+    name?: string;
     displayName?: string;
     description?: string;
     baseLanguageISO?: string;
