@@ -14,7 +14,7 @@ export default class Projects {
     const params = new URLSearchParams()
     if (page) params.append('page', page.toString())
     if (limit) params.append('limit', limit.toString())
-    return await this.client.request(`/teams/${team}/projects${params.keys.length > 0 ? '?' + params.toString() : ''}`) as APIResponse<Project[]>;
+    return await this.client.request(`/teams/${team}/projects${params.size > 0 ? '?' + params.toString() : ''}`) as APIResponse<Project[]>;
   }
 
   async get({ team, project }: ProjectResourceQuery) {

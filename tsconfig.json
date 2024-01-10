@@ -19,9 +19,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "types": [
-      "bun-types"
-    ],
     "outDir": "dist"
   },
   "exclude": [

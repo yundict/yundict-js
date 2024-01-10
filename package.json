@@ -1,16 +1,41 @@
 {
   "name": "yundict",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "version": "0.0.1",
+  "description": "The official Node.js / Typescript library for the Yundict API",
+  "type": "module",
+  "keywords": [
+    "api",
+    "node",
+    "typescript",
+    "yundict",
+    "client",
+    "client library"
+  ],
+  "main": "./dist/main.js",
+  "exports": "./dist/main.js",
+  "types": "./dist/main.d.ts",
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir ./dist",
-    "build:declaration": "tsc --emitDeclarationOnly",
+    "build": "tsc",
     "test": "bun test"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "typescript": "^5.0.0"
   },
-  "devDependencies": {
-    "bun-types": "^1.0.14"
+  "homepage": "https://github.com/yundict/yundict-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yundict/yundict-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yundict/yundict-js/issues"
+  },
+  "directories": {
+    "lib": "./src",
+    "test": "./tests"
+  },
+  "author": "Yundict group",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
   }
 }

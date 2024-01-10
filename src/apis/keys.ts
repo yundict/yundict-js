@@ -1,4 +1,3 @@
-import { ReadStream } from "fs";
 import Yundict from "..";
 import { ProjectKey, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
