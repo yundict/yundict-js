@@ -1,6 +1,13 @@
 # yundict-js
 
-A TypeScript library that provides a wrapper for the Yundict API.
+The official Node.js / Typescript library for the Yundict API.
+
+# Features
+
+- [x] Includes core API methods (teams, projects, keys)
+- [x] ESM only
+- [x] TypeScript support
+- [x] Node.js / Bun.js / Deno / Browser support
 
 # Installation
 
@@ -14,9 +21,16 @@ npm install yundict
 import { Yundict } from 'yundict';
 
 const yundict = new Yundict({
-  apiToken: 'API TOKEN'
+  token: 'API TOKEN'
 });
 ```
+
+## Options
+
+| name | Type | Description |
+| --- | --- | --- |
+| token | string | API token |
+| request.fetch | function | Custom replacement for built-in fetch method |
 
 # APIs
 

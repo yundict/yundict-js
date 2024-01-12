@@ -1,12 +1,12 @@
-import Yundict from "..";
+import { ApiClient } from "../api-client";
 import { Project, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
 
 export default class Projects {
 
-  client: Yundict;
+  client: ApiClient;
 
-  constructor(client: Yundict) {
+  constructor(client: ApiClient) {
     this.client = client;
   }
 
@@ -32,6 +32,7 @@ export default class Projects {
   }
 
   async update({ team, project }: ProjectResourceQuery, data: {
+    name?: string;
     displayName?: string;
     description?: string;
     baseLanguageISO?: string;

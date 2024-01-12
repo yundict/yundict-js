@@ -14,6 +14,9 @@
   "main": "./dist/main.js",
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "bun test"
@@ -28,10 +31,6 @@
   },
   "bugs": {
     "url": "https://github.com/yundict/yundict-js/issues"
-  },
-  "directories": {
-    "lib": "./src",
-    "test": "./tests"
   },
   "author": "Yundict group",
   "license": "MIT",

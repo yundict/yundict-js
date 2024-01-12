@@ -1,24 +1,16 @@
-import Yundict from "..";
-import { ProjectKey, ProjectResourceQuery } from "../types/project";
+import { ApiClient } from "../api-client";
+import { FetchProjectKeysParams, ProjectKey, ProjectResourceQuery } from "../types/project";
 import { APIResponse } from "../types/response";
-
-interface FetchProjectKeysParams {
-  keyword?: string;
-  tags?: string[];
-  sort?: string;
-  page?: number;
-  limit?: number;
-}
 
 export default class Keys {
 
-  client: Yundict;
+  client: ApiClient;
 
-  constructor(client: Yundict) {
+  constructor(client: ApiClient) {
     this.client = client;
   }
 
-  async all({ team, project, ...args }: ProjectResourceQuery & FetchProjectKeysParams) {
+  async all({ team, project, ...args }: FetchProjectKeysParams) {
     const { keyword, tags, sort, page = 1, limit = 20 } = args ?? {}
     const params = new URLSearchParams()
     if (keyword) params.append('keyword', keyword)

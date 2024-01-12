@@ -30,3 +30,11 @@ export interface ProjectResourceQuery {
   team: string,
   project: string
 }
+
+export type FetchProjectKeysParams = {
+  keyword?: string;
+  tags?: string[];
+  sort?: string;
+  page?: number;
+  limit?: number;
+} & ProjectResourceQuery

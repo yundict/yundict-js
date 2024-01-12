@@ -1,12 +1,12 @@
-import Yundict from "..";
+import { ApiClient } from "../api-client";
 import { APIResponse } from "../types/response";
-import Team from "../types/team";
+import { Team } from "../types/";
 
 export default class Teams {
 
-  client: Yundict;
+  client: ApiClient;
 
-  constructor(client: Yundict) {
+  constructor(client: ApiClient) {
     this.client = client;
   }
 
