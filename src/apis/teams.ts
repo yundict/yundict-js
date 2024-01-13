@@ -54,6 +54,6 @@ export default class Teams {
   }
 
   async resetInviteToken({ teamName }: { teamName: string }) {
-    return await this.client.request(`/teams/${teamName}/resetInviteToken`, { method: 'PATCH' })
+    return await this.client.request(`/teams/${teamName}/resetInviteToken`, { method: 'PATCH' }) as APIResponse<string>
   }
 }

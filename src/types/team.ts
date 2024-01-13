@@ -10,5 +10,5 @@ export interface Team {
     projectTotal: number;
     translationTotal: number;
   };
-  token: string;
+  inviteLink: string;
 }
