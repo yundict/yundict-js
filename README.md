@@ -1,6 +1,10 @@
-# yundict-js
+# Yundict API JavaScript client
 
-The official Node.js / Typescript library for the Yundict API.
+[![npm](https://img.shields.io/npm/v/yundict)](https://www.npmjs.com/package/yundict)
+[![Run test](https://github.com/yundict/yundict-js/actions/workflows/test.yml/badge.svg)](https://github.com/yundict/yundict-js/actions/workflows/test.yml)
+[![Downloads total](https://img.shields.io/npm/dt/yundict)](https://www.npmjs.com/package/yundict)
+
+The official JavaScript / TypeScript / Node.js library for the [Yundict API](https://yundict.com/docs/api/).
 
 # Features
 
