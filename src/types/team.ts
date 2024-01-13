@@ -9,5 +9,6 @@ export interface Team {
     keyTotal: number;
     projectTotal: number;
     translationTotal: number;
-  }
+  };
+  token: string;
 }

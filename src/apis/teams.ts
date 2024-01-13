@@ -35,4 +35,25 @@ export default class Teams {
   async delete(name: string) {
     return await this.client.request(`/teams/${name}`, { method: 'DELETE' }) as APIResponse
   }
+
+  async members({ teamName }: { teamName: string }) {
+    return await this.client.request(`/teams/${teamName}/members`) as APIResponse<{
+      id: number;
+      displayName: string;
+      photo: string;
+      role: string;
+    }[]>
+  }
+
+  async updateMembers({ teamName, members }: { teamName: string; members: { memberId: number, role: string }[] }) {
+    return await this.client.request(`/teams/${teamName}/members`, { method: 'PATCH', body: JSON.stringify({ members }) });
+  }
+
+  async deleteMember({ teamName, memberId }: { teamName: string; memberId: number }) {
+    return await this.client.request(`/teams/${teamName}/members/${memberId}`, { method: 'DELETE' })
+  }
+
+  async resetInviteToken({ teamName }: { teamName: string }) {
+    return await this.client.request(`/teams/${teamName}/resetInviteToken`, { method: 'PATCH' })
+  }
 }

@@ -47,12 +47,12 @@ export class DefaultApiClient implements ApiClient {
     }
 
     // Append custom headers
-    const customHeaders = this.config.request.headers;
+    const customHeaders = this.config?.request?.headers;
     for (const key in customHeaders) {
       customHeaders[key] && headers.append(key, customHeaders[key]);
     }
 
-    const _fetch = this.config.request.fetch || fetch;
+    const _fetch = this.config?.request?.fetch || fetch;
     const res = await _fetch(this.config.endpoint + path, {
       ...options,
       headers

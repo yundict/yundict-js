@@ -23,7 +23,7 @@ export interface YundictConfig {
   /**
    * Request
    */
-  request: {
+  request?: {
 
     /**
      * Custom replacement for built-in fetch method. Useful for testing or request hooks.
