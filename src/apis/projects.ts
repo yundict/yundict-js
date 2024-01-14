@@ -1,7 +1,10 @@
 import { ApiClient } from "../api-client";
-import { Project, ProjectResourceQuery } from "../types/project";
+import { Project } from "../types/project";
 import { APIResponse } from "../types/response";
 
+/**
+ * Projects API
+ */
 export default class Projects {
 
   client: ApiClient;
@@ -10,39 +13,69 @@ export default class Projects {
     this.client = client;
   }
 
-  async all({ team, page, limit }: { team: string, page?: number, limit?: number }) {
+  /**
+   * Fetch all projects that the user has access to.
+   * 
+   * @param teamName The name of the team to fetch projects for.
+   * @param page The page number to fetch.
+   * @param limit The number of projects to fetch per page.
+   * @returns Project list
+   */
+  async all(teamName: string, options: { page?: number, limit?: number } = {}) {
+    const { page, limit } = options ?? {}
     const params = new URLSearchParams()
     if (page) params.append('page', page.toString())
     if (limit) params.append('limit', limit.toString())
-    return await this.client.request(`/teams/${team}/projects${params.size > 0 ? '?' + params.toString() : ''}`) as APIResponse<Project[]>;
+    return await this.client.request(`/teams/${teamName}/projects${params.size > 0 ? '?' + params.toString() : ''}`) as APIResponse<Project[]>;
   }
 
-  async get({ team, project }: ProjectResourceQuery) {
-    return await this.client.request(`/teams/${team}/projects/${project}`) as APIResponse<Project>;
+  /**
+   * Fetch a single project by name.
+   * 
+   * @param teamName The name of the team to fetch the project for.
+   * @param projectName The name of the project to fetch.
+   * @returns project details
+   */
+  async get(teamName: string, projectName: string) {
+    return await this.client.request(`/teams/${teamName}/projects/${projectName}`) as APIResponse<Project>;
   }
 
-  async create({ team }: { team?: string }, data: {
+  /**
+   * Create a new project.
+   * 
+   * @param teamName The name of the team to create the project for.
+   * @param data The project data.
+   * @returns project details
+   */
+  async create(teamName: string, data: {
     name: string;
     displayName: string;
     description?: string;
     baseLanguageISO: string;
     languagesISO: string[];
   }) {
-    return await this.client.request(`/teams/${team}/projects`, { method: 'POST', body: JSON.stringify(data) });
+    return await this.client.request(`/teams/${teamName}/projects`, { method: 'POST', body: JSON.stringify(data) });
   }
 
-  async update({ team, project }: ProjectResourceQuery, data: {
+  /**
+   * Update a project.
+   * 
+   * @param teamName
+   * @param data 
+   * @returns 
+   */
+  async update(teamName: string, projectName: string, data: {
     name?: string;
     displayName?: string;
     description?: string;
     baseLanguageISO?: string;
     languagesISO?: string[];
   }) {
-    return await this.client.request(`/teams/${team}/projects/${project}`, { method: 'PATCH', body: JSON.stringify(data) });
+    return await this.client.request(`/teams/${teamName}/projects/${projectName}`, { method: 'PATCH', body: JSON.stringify(data) });
   }
 
-  async delete({ team, project }: ProjectResourceQuery) {
-    return await this.client.request(`/teams/${team}/projects/${project}`, { method: 'DELETE' });
+  async delete(teamName: string, projectName: string) {
+    return await this.client.request(`/teams/${teamName}/projects/${projectName}`, { method: 'DELETE' });
   }
 
   async tags(teamName: string, projectName: string) {

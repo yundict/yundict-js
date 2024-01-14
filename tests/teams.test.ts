@@ -1,5 +1,8 @@
 import { expect, test } from "bun:test";
-import { yundict, TEST_TEAM_NAME } from "./client";
+import { yundict } from "./client";
+
+// Random team name
+const TEST_TEAM_NAME = crypto.randomUUID().replace(/-/g, '');
 
 test("Fetch teams", async () => {
   const res = await yundict.teams.all()
@@ -7,12 +10,11 @@ test("Fetch teams", async () => {
   expect(res.data).toBeInstanceOf(Array);
 
   // Delete test team if it exists
-  // const testTeam = res.data?.find(team => team.name === TEST_TEAM_NAME);
-  // console.log("testTeam", res.data);
-  // if (testTeam) {
-  //   const deleteTeamRes = await yundict.teams.delete(testTeam.name);
-  //   expect(deleteTeamRes.success).toBe(true);
-  // }
+  const testTeam = res.data?.find(team => team.name === TEST_TEAM_NAME);
+  if (testTeam) {
+    const deleteTeamRes = await yundict.teams.delete(testTeam.name);
+    expect(deleteTeamRes.success).toBe(true);
+  }
 });
 
 test("Create team", async () => {
@@ -21,7 +23,7 @@ test("Create team", async () => {
     displayName: "Test Team"
   });
   if (!res.success) console.error(res);
-  expect(res.success).toBe(false);
+  expect(res.success).toBe(true);
 });
 
 test("Fetch team", async () => {
@@ -32,8 +34,7 @@ test("Fetch team", async () => {
 });
 
 test("Update team", async () => {
-  const name = TEST_TEAM_NAME;
-  const res = await yundict.teams.update(name, {
+  const res = await yundict.teams.update(TEST_TEAM_NAME, {
     displayName: "Test Team Yo~"
   });
   if (!res.success) console.error(res);
@@ -41,7 +42,7 @@ test("Update team", async () => {
 });
 
 test("Fetch team members", async () => {
-  const res = await yundict.teams.members({ teamName: TEST_TEAM_NAME });
+  const res = await yundict.teams.members(TEST_TEAM_NAME);
   if (!res.success) console.error(res);
   expect(res.success).toBe(true);
   expect(res.data).toBeInstanceOf(Array);

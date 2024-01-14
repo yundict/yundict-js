@@ -57,26 +57,26 @@ yundict.teams.delete('test-team');
 
 ```typescript
 // Get all projects
-yundict.projects.all({ team:"my-team" })
+yundict.projects.all({ teamName:"my-team" })
 // Get a project by name
-yundict.projects.get({ team:"my-team", project: 'project-name' })
+yundict.projects.get("my-team", 'my-proj')
 // Create a project
-yundict.projects.create({ team: "my-team"}, { name: "test-project", displayName: "Test Project" });
+yundict.projects.create("my-team", { displayName: "Test Project" });
 // Update a project
-yundict.projects.update({ team:"my-team", project: 'project-name' }, { name: "new-project", displayName: "Test Project 2" });
+yundict.projects.update("my-team", 'my-proj', { displayName: "Test Project 2" });
 // Delete a project
-yundict.projects.delete({ team:"my-team", project: 'project-name' })
+yundict.projects.delete("my-team", 'my-proj')
 ```
 
 ## Keys
 
 ```typescript
 // Get all keys
-yundict.keys.all({ team:"my-team", project: 'project-name' })
+yundict.keys.all("my-team", 'my-proj')
 // Create a key
-yundict.keys.create({ team:"my-team", project: 'project-name', name: "test-key"});
+yundict.keys.create("my-team", 'my-proj', "test-key");
 // Update a key
-yun.keys.update({ team:"my-team", project: 'project-name', name: "test-key"}, { name: "new-key" });
+yun.keys.update("my-team", 'my-proj', "test-key", { name: "new-key" });
 // Delete a key
-yundict.keys.delete({ team:"my-team", project: 'project-name', name: "test-key"});
+yundict.keys.delete("my-team", 'my-proj', "test-key");
 ```

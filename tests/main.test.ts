@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import Yundict from "../src";
+import { Yundict } from "../src/main";
 import { yundict } from "./client";
 
 test("Initialize", () => {
