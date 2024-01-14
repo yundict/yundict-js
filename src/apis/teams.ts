@@ -45,8 +45,13 @@ export default class Teams {
     }[]>
   }
 
-  async updateMembers({ teamName, members }: { teamName: string; members: { memberId: number, role: string }[] }) {
-    return await this.client.request(`/teams/${teamName}/members`, { method: 'PATCH', body: JSON.stringify({ members }) });
+  async updateMember({ teamName, memberId, role }: { teamName: string; memberId: number, role: string }) {
+    return await this.client.request(`/teams/${teamName}/members`, {
+      method: 'PATCH', body: JSON.stringify({
+        memberId,
+        role
+      })
+    });
   }
 
   async deleteMember({ teamName, memberId }: { teamName: string; memberId: number }) {
