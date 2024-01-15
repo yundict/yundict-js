@@ -11,4 +11,5 @@ export interface Team {
     translationTotal: number;
   };
   inviteLink: string;
+  role: "owner" | "member" | "viewer" | string;
 }
