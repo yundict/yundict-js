@@ -79,4 +79,8 @@ yundict.keys.create("my-team", 'my-proj', "test-key");
 yun.keys.update("my-team", 'my-proj', "test-key", { name: "new-key" });
 // Delete a key
 yundict.keys.delete("my-team", 'my-proj', "test-key");
+// Import keys from a file
+yundict.keys.import("my-team", 'my-proj', { file: ... });
+// Export keys to a file
+yundict.keys.export("my-team", 'my-proj', { languages: "en", type: "json" });
 ```
