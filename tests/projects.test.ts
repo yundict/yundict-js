@@ -7,10 +7,12 @@ const TEST_PROJECT_NAME = crypto.randomUUID().replace(/-/g, '');
 
 // Create test team and project
 beforeAll(async () => {
-  await yundict.teams.create({
+  const res = await yundict.teams.create({
     name: TEST_TEAM_NAME,
     displayName: "Test Team"
   });
+  if (!res.success) console.error(res);
+  expect(res.success).toBe(true);
 });
 console.log("Start test project: " + TEST_PROJECT_NAME);
 
@@ -31,8 +33,8 @@ test("Create project", async () => {
   const res = await yundict.projects.create(TEST_TEAM_NAME, {
     name: TEST_PROJECT_NAME,
     displayName: 'Test project',
-    baseLanguageISO: 'en',
-    languagesISO: ['zh', 'jp']
+    baseLanguage: 'en',
+    languages: ['zh', 'jp']
   })
   if (!res.success) console.error(res);
   expect(res.success).toBe(true);

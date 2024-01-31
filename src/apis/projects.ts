@@ -51,8 +51,8 @@ export default class Projects {
     name: string;
     displayName: string;
     description?: string;
-    baseLanguageISO: string;
-    languagesISO: string[];
+    baseLanguage: string;
+    languages: string[];
   }) {
     return await this.client.request(`/teams/${teamName}/projects`, { method: 'POST', body: JSON.stringify(data) });
   }
@@ -68,8 +68,8 @@ export default class Projects {
     name?: string;
     displayName?: string;
     description?: string;
-    baseLanguageISO?: string;
-    languagesISO?: string[];
+    baseLanguage?: string;
+    languages?: string[];
   }) {
     return await this.client.request(`/teams/${teamName}/projects/${projectName}`, { method: 'PATCH', body: JSON.stringify(data) });
   }

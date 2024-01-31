@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { yundict } from "./client";
 
 // Random team name
-const TEST_TEAM_NAME = crypto.randomUUID().replace(/-/g, '');
+const TEST_TEAM_NAME = crypto.randomUUID().replace(/-/g, '').substring(0, 10)
 
 test("Fetch teams", async () => {
   const res = await yundict.teams.all()

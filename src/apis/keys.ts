@@ -131,8 +131,8 @@ export default class Keys {
   /**
    * Fetch translation history of a key
    */
-  async history(teamName: string, projectName: string, keyName: string, { languageISO }: { languageISO: string }) {
-    const res = await this.client.request(`/teams/${teamName}/projects/${projectName}/keys/${keyName}/history?languageISO=${languageISO}`);
+  async history(teamName: string, projectName: string, keyName: string, { language }: { language: string }) {
+    const res = await this.client.request(`/teams/${teamName}/projects/${projectName}/keys/${keyName}/history?language=${language}`);
     return res as APIResponse<{
       content: string,
       createdAt: string,

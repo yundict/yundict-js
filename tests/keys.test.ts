@@ -14,8 +14,8 @@ beforeAll(async () => {
   await yundict.projects.create(TEST_TEAM_NAME, {
     name: TEST_PROJECT_NAME,
     displayName: 'Test project',
-    baseLanguageISO: 'en',
-    languagesISO: ['zh', 'jp']
+    baseLanguage: 'en',
+    languages: ['zh', 'jp']
   })
 });
 
@@ -33,7 +33,7 @@ test("Create key", async () => {
     tags: ['test-tag'],
     translations: [
       {
-        languageISO: 'en',
+        language: 'en',
         content: 'Hello'
       }
     ]
@@ -70,9 +70,10 @@ test("Import Keys", async () => {
 
 test("Export keys", async () => {
   const res = await yundict.keys.export(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
-    type: "json",
+    type: "key-value-json",
     languages: ['en'],
   })
+  if (!res.success) console.error(res);
   expect(res.success).toBeTrue();
   expect(res.data).toStartWith("http");
 });

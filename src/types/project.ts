@@ -3,8 +3,8 @@ export interface Project {
   name: string;
   displayName: string;
   description: string;
-  baseLanguageISO: string;
-  languagesISO: string[];
+  baseLanguage: string;
+  languages: string[];
   createdAt: string;
   updatedAt: string;
   creatorId: number;
@@ -15,7 +15,7 @@ export interface Project {
 }
 
 export interface ProjectKeyTranslation {
-  languageISO: string;
+  language: string;
   content: string;
   contentDraft?: string;
 }

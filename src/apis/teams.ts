@@ -31,6 +31,7 @@ export default class Teams {
    * Create a new team.
    */
   async create(params: { name: string; displayName: string; }) {
+    console.log(params);
     return await this.client.request(`/teams`, { method: 'POST', body: JSON.stringify(params) });
   }
 
@@ -43,8 +44,8 @@ export default class Teams {
     name?: string;
     displayName?: string;
     description?: string;
-    baseLanguageISO?: string;
-    languagesISO?: string[];
+    baseLanguage?: string;
+    languages?: string[];
   }) {
     return await this.client.request(`/teams/${name}`, { method: 'PATCH', body: JSON.stringify(data) });
   }
