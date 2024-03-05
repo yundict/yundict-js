@@ -13,3 +13,10 @@ export interface Team {
   inviteLink: string;
   role: "owner" | "member" | "viewer" | string;
 }
+
+export interface TeamMember {
+  id: number;
+  displayName: string;
+  photo: string;
+  role: string;
+}

@@ -42,10 +42,11 @@ test("Update team", async () => {
 });
 
 test("Fetch team members", async () => {
-  const res = await yundict.teams.members(TEST_TEAM_NAME);
+  const res = await yundict.teams.members(TEST_TEAM_NAME, { page: 2 });
   if (!res.success) console.error(res);
   expect(res.success).toBe(true);
-  expect(res.data).toBeInstanceOf(Array);
+  expect(res.data?.users).toBeInstanceOf(Array);
+  expect(res.data?.total).toBeNumber();
 });
 
 test("Reset team invite token", async () => {

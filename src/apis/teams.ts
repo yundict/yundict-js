@@ -1,6 +1,6 @@
 import { ApiClient } from "../api-client";
 import { APIResponse } from "../types/response";
-import { Team } from "../types/";
+import { Team, TeamMember } from "../types/";
 
 /**
  * Teams API
@@ -60,13 +60,15 @@ export default class Teams {
   /**
    * Fetch all members of a team.
    */
-  async members(name: string) {
-    return await this.client.request(`/teams/${name}/members`) as APIResponse<{
-      id: number;
-      displayName: string;
-      photo: string;
-      role: string;
-    }[]>
+  async members(name: string, options?: { page?: number, limit?: number }) {
+    const { page = 1, limit = 10 } = options ?? {}
+    const params = new URLSearchParams()
+    params.append('page', page.toString())
+    params.append('limit', limit.toString())
+    return await this.client.request(`/teams/${name}/members?${params.toString()}`) as APIResponse<{
+      users: TeamMember[];
+      total: number;
+    }>
   }
 
   /**
