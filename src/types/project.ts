@@ -32,4 +32,19 @@ export type FetchProjectKeysParams = {
   sort?: string;
   page?: number;
   limit?: number;
-} 
+};
+
+/**
+ * Export file type
+ */
+export type ExportFileType =
+  | "key-value-json"
+  | "apple-strings"
+  | "android-xml"
+  | "csv"
+  | "arb"
+  | "yaml"
+  | "properties"
+  | "ini"
+  | "excel-xlsx"
+  | "i18next-json";

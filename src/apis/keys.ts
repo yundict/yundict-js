@@ -1,21 +1,6 @@
 import { ApiClient } from "../api-client";
-import { FetchProjectKeysParams, ProjectKey } from "../types/project";
+import { ExportFileType, FetchProjectKeysParams, ProjectKey } from "../types/project";
 import { APIResponse } from "../types/response";
-
-/**
- * Import/Export file types
- */
-type ExportFileType =
-  | "key-value-json"
-  | "apple-strings"
-  | "android-xml"
-  | "csv"
-  | "arb"
-  | "yaml"
-  | "properties"
-  | "ini"
-  | "excel-xlsx"
-  | "i18next-json";
 
 /**
  * Keys API
