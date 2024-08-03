@@ -78,6 +78,53 @@ test("Export keys", async () => {
   expect(res.data).toStartWith("http");
 });
 
+test("Import and Export universal placeholder", async () => {
+  const res = await yundict.keys.import(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
+    language: "en",
+    tags: ["test-placeholder"],
+    overwrite: true,
+    file: new Blob(
+      [
+        JSON.stringify({
+          hello: "hello %s, i'm %i years old",
+        }),
+      ],
+      {
+        type: "application/json",
+      }
+    ),
+    fileName: "test.json",
+    convertPlaceholders: true,
+  });
+  expect(res.success).toBeTrue();
+  expect(res.data?.total).toBe(1);
+
+  async function exportJSONContentByPlaceholderFormat(placeholderFormat: "printf" | "ios" | "raw") {
+    const exportRes = await yundict.keys.export(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
+      type: "key-value-json",
+      languages: ["en"],
+      placeholderFormat: placeholderFormat,
+    });
+    expect(exportRes.success).toBeTrue();
+    expect(exportRes.data?.startsWith("http")).toBeTrue();
+    const downloadRes = await fetch(exportRes.data!);
+    const exportContent = await downloadRes.json();
+    return exportContent as Record<string, unknown>;
+  }
+
+  // Printf format
+  const printfExportContent = await exportJSONContentByPlaceholderFormat("printf");
+  expect(printfExportContent.hello).toBe("hello %s, i'm %d years old");
+
+  // iOS format
+  const iosExportContent = await exportJSONContentByPlaceholderFormat("ios");
+  expect(iosExportContent.hello).toBe("hello %@, i'm %d years old");
+
+  // Raw format
+  const rawExportContent = await exportJSONContentByPlaceholderFormat("raw");
+  expect(rawExportContent.hello).toBe("hello [%s], i'm [%d] years old");
+});
+
 test("Delete key", async () => {
   const res = await yundict.keys.delete(TEST_TEAM_NAME, TEST_PROJECT_NAME, TEST_KEY_NAME)
   expect(res.success).toBeTrue();
