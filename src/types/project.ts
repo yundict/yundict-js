@@ -26,6 +26,23 @@ export interface ProjectKey {
   translations?: ProjectKeyTranslation[];
 }
 
+export interface Attachment {
+  id: number;
+  name: string;
+  type: string;
+  url?: string;
+  description: string;
+}
+
+export interface ProjectKeyDetail {
+  name: string;
+  tags?: string[];
+  translations?: ProjectKeyTranslation[];
+  createdAt: string;
+  updatedAt: string;
+  resources: Array<Attachment>;
+}
+
 export type FetchProjectKeysParams = {
   keyword?: string;
   tags?: string[];

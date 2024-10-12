@@ -33,6 +33,20 @@ export default class Keys {
   }
 
   /**
+   * Fetch a key
+   *
+   * @param teamName The name of the team
+   * @param projectName The name of the project
+   * @param keyName The name of the key
+   * @returns
+   */
+  async get(teamName: string, projectName: string, keyName: string) {
+    return (await this.client.request(
+      `/teams/${teamName}/projects/${projectName}/keys/${keyName}`
+    )) as APIResponse<ProjectKey>;
+  }
+
+  /**
    * Create a new key
    *
    * @param teamName The name of the team

@@ -43,6 +43,12 @@ test("Create key", async () => {
   expect(res.data).toMatchObject(data);
 });
 
+test("Fetch key", async () => {
+  const res = await yundict.keys.get(TEST_TEAM_NAME, TEST_PROJECT_NAME, TEST_KEY_NAME);
+  expect(res.success).toBeTrue();
+  expect(res.data?.name).toBe(TEST_KEY_NAME);
+});
+
 test("Update key", async () => {
   const res = await yundict.keys.update(TEST_TEAM_NAME, TEST_PROJECT_NAME, TEST_KEY_NAME, {
     name: TEST_KEY_NAME,
