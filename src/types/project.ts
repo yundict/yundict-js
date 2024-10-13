@@ -1,18 +1,23 @@
 export interface Project {
-  id: string;
+  id: number;
   name: string;
   displayName: string;
-  description: string;
+  description?: any;
   baseLanguage: string;
   languages: string[];
-  createdAt: string;
-  updatedAt: string;
   creatorId: number;
   modifierId: number;
+  teamId: number;
+  createdAt: string;
+  updatedAt: string;
   keyTotal: number;
   stringTotal: number;
-  translationTotal: number;
+  completedKeyTotal: number;
+  translatedStringTotal: number;
+  untranslatedStringTotal: number;
+  tags: string[];
 }
+
 
 export interface ProjectKeyTranslation {
   language: string;
