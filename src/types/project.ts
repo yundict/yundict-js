@@ -28,10 +28,9 @@ export interface ProjectKey {
 
 export interface Attachment {
   id: number;
-  name: string;
-  type: string;
+  type: "image";
+  description?: string;
   url?: string;
-  description: string;
 }
 
 export interface ProjectKeyDetail {
@@ -40,7 +39,7 @@ export interface ProjectKeyDetail {
   translations?: ProjectKeyTranslation[];
   createdAt: string;
   updatedAt: string;
-  resources: Array<Attachment>;
+  resource: Attachment;
 }
 
 export type FetchProjectKeysParams = {

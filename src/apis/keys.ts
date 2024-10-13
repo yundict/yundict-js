@@ -1,5 +1,5 @@
 import { ApiClient } from "../api-client";
-import { ExportFileType, FetchProjectKeysParams, ProjectKey } from "../types/project";
+import { ExportFileType, FetchProjectKeysParams, ProjectKey, ProjectKeyDetail } from "../types/project";
 import { APIResponse } from "../types/response";
 
 /**
@@ -43,7 +43,7 @@ export default class Keys {
   async get(teamName: string, projectName: string, keyName: string) {
     return (await this.client.request(
       `/teams/${teamName}/projects/${projectName}/keys/${keyName}`
-    )) as APIResponse<ProjectKey>;
+    )) as APIResponse<ProjectKeyDetail>;
   }
 
   /**
