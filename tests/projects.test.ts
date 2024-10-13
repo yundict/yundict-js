@@ -46,6 +46,12 @@ test("Fetch project", async () => {
   expect(res.data?.name).toBe(TEST_PROJECT_NAME);
 });
 
+test("Fetch recently projects", async () => {
+  const res = await yundict.projects.recently(TEST_TEAM_NAME, TEST_PROJECT_NAME);
+  expect(res.success).toBe(true);
+  expect(res.data).toBeInstanceOf(Array);
+});
+
 test("Update project", async () => {
   const res = await yundict.projects.update(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
     displayName: "Test Team 2"
