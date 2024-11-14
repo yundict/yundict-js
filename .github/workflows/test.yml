@@ -2,13 +2,7 @@ name: Run test
 
 on:
   push:
-    branches: ["main"]
   pull_request:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   test:
@@ -22,6 +16,11 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
+      - name: Runs formatter, linter and import sorting
+        run: |
+          bun install
+          bun run check-ci
 
       - name: Run tests
         env:

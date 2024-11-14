@@ -1,41 +1,42 @@
 {
-  "name": "yundict",
-  "version": "0.1.5",
-  "description": "The official Node.js / Typescript library for the Yundict API",
-  "type": "module",
-  "keywords": [
-    "api",
-    "node",
-    "typescript",
-    "yundict",
-    "client",
-    "client library"
-  ],
-  "main": "./dist/main.js",
-  "exports": "./dist/main.js",
-  "types": "./dist/main.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "test": "bun test"
-  },
-  "devDependencies": {
-    "@types/bun": "^1.0.1",
-    "typescript": "^5.0.0"
-  },
-  "homepage": "https://github.com/yundict/yundict-js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yundict/yundict-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yundict/yundict-js/issues"
-  },
-  "author": "Yundict group",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  }
+	"name": "yundict",
+	"version": "0.1.5",
+	"description": "The official Node.js / Typescript library for the Yundict API",
+	"type": "module",
+	"keywords": [
+		"api",
+		"node",
+		"typescript",
+		"yundict",
+		"client",
+		"client library"
+	],
+	"main": "./dist/main.js",
+	"exports": "./dist/main.js",
+	"types": "./dist/main.d.ts",
+	"files": ["dist"],
+	"scripts": {
+		"build": "tsc",
+		"test": "bun test",
+		"check": "biome check",
+		"check-ci": "biome ci"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "^1.0.1",
+		"typescript": "^5.0.0"
+	},
+	"homepage": "https://github.com/yundict/yundict-js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yundict/yundict-js.git"
+	},
+	"bugs": {
+		"url": "https://github.com/yundict/yundict-js/issues"
+	},
+	"author": "Yundict group",
+	"license": "MIT",
+	"engines": {
+		"node": ">=18"
+	}
 }
