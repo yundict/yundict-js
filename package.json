@@ -18,7 +18,8 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "bun test",
-		"check": "biome check"
+		"check": "biome check",
+		"check-ci": "biome ci"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",

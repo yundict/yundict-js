@@ -23,6 +23,11 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Runs formatter, linter and import sorting
+        run: |
+          bun install
+          bun run check-ci
+
       - name: Run tests
         env:
           YUNDICT_API_TOKEN: ${{ secrets.YUNDICT_API_TOKEN }}
