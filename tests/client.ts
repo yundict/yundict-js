@@ -11,4 +11,10 @@ if (!API_TOKEN) {
 export const yundict = new Yundict({
 	token: API_TOKEN,
 	endpoint: API_ENDPOINT,
+	request: {
+		beforeRequest: async (path, options) => {
+			console.log("Requesting: ", path);
+			return options;
+		},
+	},
 });

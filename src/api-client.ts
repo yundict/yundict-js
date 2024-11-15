@@ -50,11 +50,22 @@ export class DefaultApiClient implements ApiClient {
 			customHeaders[key] && headers.append(key, customHeaders[key]);
 		}
 
-		const _fetch = this.config?.request?.fetch || fetch;
-		const res = await _fetch(this.config.endpoint + path, {
+		// Merge options
+		let currentOptions: RequestInit = {
 			...options,
 			headers,
-		});
+		};
+
+		// Before request hook
+		if (this.config?.request?.beforeRequest) {
+			currentOptions = await this.config.request.beforeRequest(
+				path,
+				currentOptions,
+			);
+		}
+
+		const _fetch = this.config?.request?.fetch || fetch;
+		const res = await _fetch(this.config.endpoint + path, currentOptions);
 
 		// DELETE request does not need to return body, judge whether it is successful according to the error code
 		if (options?.method === "DELETE" && res.status >= 200 && res.status < 300) {

@@ -29,6 +29,17 @@ export interface YundictConfig {
 		fetch?: typeof fetch;
 
 		/**
+		 * Hook to modify request options before sending, useful for adding custom headers or modifying request body.
+		 *
+		 * @param path Request path
+		 * @param options Request options
+		 */
+		beforeRequest?: (
+			path: string,
+			options: RequestInit,
+		) => Promise<RequestInit>;
+
+		/**
 		 * Custom headers to pass to every request
 		 */
 		headers?: Record<string, string>;
