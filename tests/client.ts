@@ -12,8 +12,10 @@ export const yundict = new Yundict({
 	token: API_TOKEN,
 	endpoint: API_ENDPOINT,
 	request: {
-		beforeRequest: async (path, options) => {
-			console.log("Requesting: ", path);
+		beforeRequest: async (_, options) => {
+			const newHeaders = new Headers(options.headers);
+			newHeaders.set("CustomHeader1", "CustomValue1");
+			options.headers = newHeaders;
 			return options;
 		},
 	},
