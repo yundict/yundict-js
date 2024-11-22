@@ -14,9 +14,7 @@
 	"main": "./dist/main.js",
 	"exports": "./dist/main.js",
 	"types": "./dist/main.d.ts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc",
 		"test": "bun test",
