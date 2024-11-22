@@ -18,12 +18,15 @@ test("Fetch teams", async () => {
 });
 
 test("Create team", async () => {
+	const TEST_TEAM_DISPLAY_NAME = "Test Team";
 	const res = await yundict.teams.create({
 		name: TEST_TEAM_NAME,
-		displayName: "Test Team",
+		displayName: TEST_TEAM_DISPLAY_NAME,
 	});
 	if (!res.success) console.error(res);
 	expect(res.success).toBe(true);
+	expect(res.data?.name).toBe(TEST_TEAM_NAME);
+	expect(res.data?.displayName).toBe(TEST_TEAM_DISPLAY_NAME);
 });
 
 test("Fetch team", async () => {
@@ -57,8 +60,8 @@ test("Reset team invite token", async () => {
 	expect(res.success).toBe(true);
 });
 
-// test("Delete team", async () => {
-//   const name = "test-team";
-//   const res = await yundict.teams.delete(name);
-//   expect(res.success).toBe(true);
-// });
+test("Delete team", async () => {
+	const name = TEST_TEAM_NAME;
+	const res = await yundict.teams.delete(name);
+	expect(res.success).toBe(true);
+});

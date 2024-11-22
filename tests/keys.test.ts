@@ -1,4 +1,4 @@
-import { beforeAll, expect, test } from "bun:test";
+import { afterAll, beforeAll, expect, test } from "bun:test";
 import { yundict } from "./client";
 
 const TEST_TEAM_NAME = crypto.randomUUID().replace(/-/g, "");
@@ -17,6 +17,10 @@ beforeAll(async () => {
 		baseLanguage: "en",
 		languages: ["zh", "jp"],
 	});
+});
+
+afterAll(async () => {
+	await yundict.teams.delete(TEST_TEAM_NAME);
 });
 
 test("Fetch all keys", async () => {

@@ -1,4 +1,4 @@
-import { beforeAll, expect, test } from "bun:test";
+import { afterAll, beforeAll, expect, test } from "bun:test";
 import { yundict } from "./client";
 
 // Random project name
@@ -7,6 +7,7 @@ const TEST_PROJECT_NAME = crypto.randomUUID().replace(/-/g, "");
 
 // Create test team and project
 beforeAll(async () => {
+	console.log(`Start test project: ${TEST_PROJECT_NAME}`);
 	const res = await yundict.teams.create({
 		name: TEST_TEAM_NAME,
 		displayName: "Test Team",
@@ -14,7 +15,10 @@ beforeAll(async () => {
 	if (!res.success) console.error(res);
 	expect(res.success).toBe(true);
 });
-console.log(`Start test project: ${TEST_PROJECT_NAME}`);
+
+afterAll(async () => {
+	await yundict.teams.delete(TEST_TEAM_NAME);
+});
 
 test("Fetch projects", async () => {
 	const res = await yundict.projects.all(TEST_TEAM_NAME);

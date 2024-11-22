@@ -30,11 +30,10 @@ export default class Teams {
 	 * Create a new team.
 	 */
 	async create(params: { name: string; displayName: string }) {
-		console.log(params);
-		return await this.client.request("/teams", {
+		return (await this.client.request("/teams", {
 			method: "POST",
 			body: JSON.stringify(params),
-		});
+		})) as APIResponse<Team>;
 	}
 
 	/**
