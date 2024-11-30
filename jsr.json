@@ -1,6 +1,6 @@
 {
-  "name": "@yundict/yundict",
-  "version": "0.1.8",
-  "license": "MIT",
-  "exports": "./src/main.ts
+	"name": "@yundict/yundict",
+	"version": "0.1.8",
+	"license": "MIT",
+	"exports": "./src/main.ts"
 }
