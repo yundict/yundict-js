@@ -1,8 +1,11 @@
 # Yundict API JavaScript client
 
 [![npm](https://img.shields.io/npm/v/yundict)](https://www.npmjs.com/package/yundict)
+[![JSR](https://jsr.io/badges/@yundict/yundict)](https://jsr.io/@yundict/yundict)
 [![Run test](https://github.com/yundict/yundict-js/actions/workflows/test.yml/badge.svg)](https://github.com/yundict/yundict-js/actions/workflows/test.yml)
 [![Downloads total](https://img.shields.io/npm/dt/yundict)](https://www.npmjs.com/package/yundict)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/yundict)](https://bundlephobia.com/result?p=yundict)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/yundict)](https://bundlephobia.com/result?p=yundict)
 
 The official JavaScript / TypeScript / Node.js library for the [Yundict API](https://yundict.com/docs/api/).
 
