@@ -16,7 +16,7 @@
 	"types": "./dist/main.d.ts",
 	"files": ["dist"],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc && npx tsc-esm-fix",
 		"test": "bun test",
 		"check": "biome check"
 	},
