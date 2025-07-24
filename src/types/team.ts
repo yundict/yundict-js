@@ -2,7 +2,8 @@ export interface Team {
 	id: string;
 	name: string;
 	displayName: string;
-	isPro: boolean;
+	plan: "free" | "pro" | "enterprise";
+	isExpired: boolean;
 	personal: boolean;
 	expiredAt: string;
 	usage: {
