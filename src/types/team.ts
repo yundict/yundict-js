@@ -10,6 +10,7 @@ export interface Team {
 		keyTotal: number;
 		projectTotal: number;
 		translationTotal: number;
+		memberTotal: number;
 	};
 	inviteLink: string;
 	role: "owner" | "member" | "viewer" | string;
