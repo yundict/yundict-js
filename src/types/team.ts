@@ -21,4 +21,5 @@ export interface TeamMember {
 	displayName: string;
 	photo: string;
 	role: string;
+	email: string;
 }
