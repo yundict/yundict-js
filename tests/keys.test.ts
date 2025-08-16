@@ -172,108 +172,208 @@ test("Import and Export universal placeholder", async () => {
 });
 
 test("Add tags to multiple keys", async () => {
-	// First create another key for testing
-	const anotherKey = `${TEST_CONFIG.KEY_NAME}_2`;
-	await yundict.keys.create(TEST_CONFIG.TEAM_NAME, TEST_CONFIG.PROJECT_NAME, {
-		name: anotherKey,
-		translations: [
-			{
-				language: "en",
-				content: "Test content",
-			},
-		],
-	});
-
-	// Ensure the key has some initial tags
-	await yundict.keys.update(
+	// First create the main test key if it doesn't exist
+	const mainKey = `${TEST_CONFIG.KEY_NAME}_add_tags_main_${Date.now()}`;
+	const createMainRes = await yundict.keys.create(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
-		TEST_CONFIG.KEY_NAME,
 		{
-			name: TEST_CONFIG.KEY_NAME,
+			name: mainKey,
+			translations: [
+				{
+					language: "en",
+					content: "Main test content",
+				},
+			],
+		},
+	);
+	expect(createMainRes.success).toBeTrue();
+
+	// Create another key for testing with a unique name
+	const anotherKey = `${TEST_CONFIG.KEY_NAME}_add_tags_${Date.now()}`;
+	const createRes = await yundict.keys.create(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		{
+			name: anotherKey,
+			translations: [
+				{
+					language: "en",
+					content: "Test content",
+				},
+			],
+		},
+	);
+	expect(createRes.success).toBeTrue();
+
+	// Set initial tags for both keys to ensure clean state
+	const updateRes1 = await yundict.keys.update(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		mainKey,
+		{
+			name: mainKey,
 			tags: ["initial-tag"],
 		},
 	);
 
-	const res = await yundict.keys.addTags(
+	expect(updateRes1.success).toBeTrue();
+
+	const updateRes2 = await yundict.keys.update(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+		{
+			name: anotherKey,
+			tags: ["initial-tag"],
+		},
+	);
+	expect(updateRes2.success).toBeTrue();
+
+	// Add tags to multiple keys
+	const addTagsRes = await yundict.keys.addTags(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		{
-			keys: [TEST_CONFIG.KEY_NAME, anotherKey],
+			keys: [mainKey, anotherKey],
 			tags: ["new-tag", "another-tag"],
 		},
 	);
 
-	// Note: This test may fail if the backend API is not implemented yet
-	// But we still want to verify the client side implementation is correct
-	expect(typeof res.success).toBe("boolean");
+	// Verify API call was successful
+	expect(addTagsRes.success).toBeTrue();
 
-	// If the API call is successful, verify tags were added
-	if (res.success) {
-		// Verify tags were added by fetching the keys
-		const key1 = await yundict.keys.get(
-			TEST_CONFIG.TEAM_NAME,
-			TEST_CONFIG.PROJECT_NAME,
-			TEST_CONFIG.KEY_NAME,
-		);
-		const key2 = await yundict.keys.get(
-			TEST_CONFIG.TEAM_NAME,
-			TEST_CONFIG.PROJECT_NAME,
-			anotherKey,
-		);
+	// Verify tags were added by fetching the keys
+	const key1 = await yundict.keys.get(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		mainKey,
+	);
+	const key2 = await yundict.keys.get(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+	);
 
-		expect(key1.success).toBeTrue();
-		expect(key2.success).toBeTrue();
+	expect(key1.success).toBeTrue();
+	expect(key2.success).toBeTrue();
+	expect(key1.data).toBeDefined();
+	expect(key2.data).toBeDefined();
 
-		if (key1.success && key1.data && key2.success && key2.data) {
-			expect(key1.data.tags).toContain("new-tag");
-			expect(key1.data.tags).toContain("another-tag");
-			expect(key2.data.tags).toContain("new-tag");
-			expect(key2.data.tags).toContain("another-tag");
-		}
+	if (key1.data && key2.data) {
+		// Verify both keys have the original and new tags
+		expect(key1.data.tags).toContain("initial-tag");
+		expect(key1.data.tags).toContain("new-tag");
+		expect(key1.data.tags).toContain("another-tag");
+		expect(key2.data.tags).toContain("initial-tag");
+		expect(key2.data.tags).toContain("new-tag");
+		expect(key2.data.tags).toContain("another-tag");
 	}
+
+	// Clean up: delete both test keys
+	const deleteRes1 = await yundict.keys.delete(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		mainKey,
+	);
+	expect(deleteRes1.success).toBeTrue();
+
+	const deleteRes2 = await yundict.keys.delete(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+	);
+	expect(deleteRes2.success).toBeTrue();
 });
 
 test("Delete tags from multiple keys", async () => {
-	// First ensure the key has the tags we want to delete
-	await yundict.keys.update(
+	// Create another key for testing with a unique name
+	const anotherKey = `${TEST_CONFIG.KEY_NAME}_delete_${Date.now()}`;
+	const createRes = await yundict.keys.create(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		{
+			name: anotherKey,
+			translations: [
+				{
+					language: "en",
+					content: "Test content for delete",
+				},
+			],
+		},
+	);
+	expect(createRes.success).toBeTrue();
+
+	// Set up both keys with the tags we want to test deleting
+	const updateRes1 = await yundict.keys.update(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		TEST_CONFIG.KEY_NAME,
 		{
 			name: TEST_CONFIG.KEY_NAME,
-			tags: ["new-tag", "keep-tag"],
+			tags: ["delete-me", "keep-me", "another-delete-me"],
 		},
 	);
+	expect(updateRes1.success).toBeTrue();
 
-	const res = await yundict.keys.deleteTags(
+	const updateRes2 = await yundict.keys.update(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+		{
+			name: anotherKey,
+			tags: ["delete-me", "keep-me", "another-delete-me"],
+		},
+	);
+	expect(updateRes2.success).toBeTrue();
+
+	// Delete specific tags from multiple keys
+	const deleteTagsRes = await yundict.keys.deleteTags(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		{
-			keys: [TEST_CONFIG.KEY_NAME],
-			tags: ["new-tag"],
+			keys: [TEST_CONFIG.KEY_NAME, anotherKey],
+			tags: ["delete-me", "another-delete-me"],
 		},
 	);
 
-	// Note: This test may fail if the backend API is not implemented yet
-	// But we still want to verify the client side implementation is correct
-	expect(typeof res.success).toBe("boolean");
+	// Verify API call was successful
+	expect(deleteTagsRes.success).toBeTrue();
 
-	// If the API call is successful, verify tags were deleted
-	if (res.success) {
-		// Verify tags were deleted by fetching the key
-		const key = await yundict.keys.get(
-			TEST_CONFIG.TEAM_NAME,
-			TEST_CONFIG.PROJECT_NAME,
-			TEST_CONFIG.KEY_NAME,
-		);
-		expect(key.success).toBeTrue();
+	// Verify tags were deleted by fetching the keys
+	const key1 = await yundict.keys.get(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		TEST_CONFIG.KEY_NAME,
+	);
+	const key2 = await yundict.keys.get(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+	);
 
-		if (key.success && key.data) {
-			expect(key.data.tags).not.toContain("new-tag");
-			expect(key.data.tags).toContain("keep-tag");
-		}
+	expect(key1.success).toBeTrue();
+	expect(key2.success).toBeTrue();
+	expect(key1.data).toBeDefined();
+	expect(key2.data).toBeDefined();
+
+	if (key1.data && key2.data) {
+		// Verify specific tags were deleted while others remain
+		expect(key1.data.tags).not.toContain("delete-me");
+		expect(key1.data.tags).not.toContain("another-delete-me");
+		expect(key1.data.tags).toContain("keep-me");
+		expect(key2.data.tags).not.toContain("delete-me");
+		expect(key2.data.tags).not.toContain("another-delete-me");
+		expect(key2.data.tags).toContain("keep-me");
 	}
+
+	// Clean up: delete the additional key
+	const deleteRes = await yundict.keys.delete(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		anotherKey,
+	);
+	expect(deleteRes.success).toBeTrue();
 });
 
 test("Delete key", async () => {

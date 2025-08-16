@@ -237,7 +237,7 @@ export default class Keys {
 		},
 	) {
 		return (await this.client.request(
-			`/teams/${teamName}/projects/${projectName}/keys/tags`,
+			`/teams/${teamName}/projects/${projectName}/keys/addTags`,
 			{
 				method: "PATCH",
 				body: JSON.stringify(data),
