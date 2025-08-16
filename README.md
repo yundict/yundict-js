@@ -11,10 +11,11 @@ The official JavaScript / TypeScript / Node.js library for the [Yundict API](htt
 
 # Features
 
-- [x] Includes core API methods (teams, projects, keys)
-- [x] ESM only
-- [x] TypeScript support
-- [x] Node.js / Bun.js / Deno / Browser support
+- [x] Core API coverage: teams, projects, keys
+- [x] Pure ESM module
+- [x] Full TypeScript typings
+- [x] Works seamlessly in Node.js, Bun.js, Deno, and browsers
+- [x] Zero dependencies
 
 # Installation
 
