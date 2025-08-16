@@ -89,7 +89,11 @@ export default class Teams {
 		teamName,
 		memberId,
 		role,
-	}: { teamName: string; memberId: number; role: string }) {
+	}: {
+		teamName: string;
+		memberId: number;
+		role: string;
+	}) {
 		return await this.client.request(`/teams/${teamName}/members`, {
 			method: "PATCH",
 			body: JSON.stringify({
@@ -105,7 +109,10 @@ export default class Teams {
 	async deleteMember({
 		teamName,
 		memberId,
-	}: { teamName: string; memberId: number }) {
+	}: {
+		teamName: string;
+		memberId: number;
+	}) {
 		return await this.client.request(`/teams/${teamName}/members/${memberId}`, {
 			method: "DELETE",
 		});
