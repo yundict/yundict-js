@@ -29,6 +29,9 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+        env:
+          YUNDICT_API_TOKEN: ${{ secrets.YUNDICT_API_TOKEN }}
+          YUNDICT_API_ENDPOINT: ${{ secrets.YUNDICT_API_ENDPOINT }}
       - run: |
           TAG_NAME=${{ github.ref_name }}
           VERSION=${TAG_NAME#v}
