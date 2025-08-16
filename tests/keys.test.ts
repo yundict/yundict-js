@@ -1,30 +1,19 @@
 import { afterAll, beforeAll, expect, test } from "bun:test";
 import { yundict } from "./client";
-
-const TEST_TEAM_NAME = crypto.randomUUID().replace(/-/g, "");
-const TEST_PROJECT_NAME = crypto.randomUUID().replace(/-/g, "");
-const TEST_KEY_NAME = crypto.randomUUID().replace(/-/g, "");
+import { TEST_CONFIG, cleanupTestResources, setupTestResources } from "./test-config";
 
 // Create test team and project
 beforeAll(async () => {
-	await yundict.teams.create({
-		name: TEST_TEAM_NAME,
-		displayName: "Test Team",
-	});
-	await yundict.projects.create(TEST_TEAM_NAME, {
-		name: TEST_PROJECT_NAME,
-		displayName: "Test project",
-		baseLanguage: "en",
-		languages: ["zh", "jp"],
-	});
+	await setupTestResources(yundict);
 });
 
 afterAll(async () => {
-	await yundict.teams.delete(TEST_TEAM_NAME);
+	// Clean up test team (this will also delete any projects and keys within it)
+	await cleanupTestResources(yundict, TEST_CONFIG.TEAM_NAME);
 });
 
 test("Fetch all keys", async () => {
-	const res = await yundict.keys.all(TEST_TEAM_NAME, TEST_PROJECT_NAME);
+	const res = await yundict.keys.all(TEST_CONFIG.TEAM_NAME, TEST_CONFIG.PROJECT_NAME);
 	expect(res.success).toBeTrue();
 	expect(res).toHaveProperty("data");
 	expect(res.data?.keys).toBeArray();
@@ -33,7 +22,7 @@ test("Fetch all keys", async () => {
 
 test("Create key", async () => {
 	const data = {
-		name: TEST_KEY_NAME,
+		name: TEST_CONFIG.KEY_NAME,
 		tags: ["test-tag"],
 		translations: [
 			{
@@ -43,8 +32,8 @@ test("Create key", async () => {
 		],
 	};
 	const res = await yundict.keys.create(
-		TEST_TEAM_NAME,
-		TEST_PROJECT_NAME,
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
 		data,
 	);
 	expect(res.success).toBeTrue();
@@ -53,21 +42,21 @@ test("Create key", async () => {
 
 test("Fetch key", async () => {
 	const res = await yundict.keys.get(
-		TEST_TEAM_NAME,
-		TEST_PROJECT_NAME,
-		TEST_KEY_NAME,
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		TEST_CONFIG.KEY_NAME,
 	);
 	expect(res.success).toBeTrue();
-	expect(res.data?.name).toBe(TEST_KEY_NAME);
+	expect(res.data?.name).toBe(TEST_CONFIG.KEY_NAME);
 });
 
 test("Update key", async () => {
 	const res = await yundict.keys.update(
-		TEST_TEAM_NAME,
-		TEST_PROJECT_NAME,
-		TEST_KEY_NAME,
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		TEST_CONFIG.KEY_NAME,
 		{
-			name: TEST_KEY_NAME,
+			name: TEST_CONFIG.KEY_NAME,
 			tags: ["testTag"],
 		},
 	);
@@ -76,14 +65,14 @@ test("Update key", async () => {
 });
 
 test("Import Keys", async () => {
-	const res = await yundict.keys.import(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
+	const res = await yundict.keys.import(TEST_CONFIG.TEAM_NAME, TEST_CONFIG.PROJECT_NAME, {
 		language: "zh",
 		tags: ["taga", "tagb"],
 		overwrite: true,
 		file: new Blob(
 			[
 				JSON.stringify({
-					[TEST_KEY_NAME]: "你好",
+					[TEST_CONFIG.KEY_NAME]: "你好",
 				}),
 			],
 			{
@@ -97,7 +86,7 @@ test("Import Keys", async () => {
 });
 
 test("Export keys", async () => {
-	const res = await yundict.keys.export(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
+	const res = await yundict.keys.export(TEST_CONFIG.TEAM_NAME, TEST_CONFIG.PROJECT_NAME, {
 		type: "key-value-json",
 		languages: ["en"],
 	});
@@ -107,7 +96,7 @@ test("Export keys", async () => {
 });
 
 test("Import and Export universal placeholder", async () => {
-	const res = await yundict.keys.import(TEST_TEAM_NAME, TEST_PROJECT_NAME, {
+	const res = await yundict.keys.import(TEST_CONFIG.TEAM_NAME, TEST_CONFIG.PROJECT_NAME, {
 		language: "en",
 		tags: ["test-placeholder"],
 		overwrite: true,
@@ -131,8 +120,8 @@ test("Import and Export universal placeholder", async () => {
 		placeholderFormat: "printf" | "ios" | "raw",
 	) {
 		const exportRes = await yundict.keys.export(
-			TEST_TEAM_NAME,
-			TEST_PROJECT_NAME,
+			TEST_CONFIG.TEAM_NAME,
+			TEST_CONFIG.PROJECT_NAME,
 			{
 				type: "key-value-json",
 				languages: ["en"],
@@ -165,9 +154,9 @@ test("Import and Export universal placeholder", async () => {
 
 test("Delete key", async () => {
 	const res = await yundict.keys.delete(
-		TEST_TEAM_NAME,
-		TEST_PROJECT_NAME,
-		TEST_KEY_NAME,
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		TEST_CONFIG.KEY_NAME,
 	);
 	expect(res.success).toBeTrue();
 });
