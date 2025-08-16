@@ -219,4 +219,54 @@ export default class Keys {
 			}[]
 		>;
 	}
+
+	/**
+	 * Add tags to multiple keys
+	 *
+	 * @param teamName The name of the team
+	 * @param projectName The name of the project
+	 * @param data The keys and tags to add
+	 * @returns API response
+	 */
+	async addTags(
+		teamName: string,
+		projectName: string,
+		data: {
+			keys: string[];
+			tags: string[];
+		},
+	) {
+		return (await this.client.request(
+			`/teams/${teamName}/projects/${projectName}/keys/tags`,
+			{
+				method: "PATCH",
+				body: JSON.stringify(data),
+			},
+		)) as APIResponse;
+	}
+
+	/**
+	 * Delete tags from multiple keys
+	 *
+	 * @param teamName The name of the team
+	 * @param projectName The name of the project
+	 * @param data The keys and tags to delete
+	 * @returns API response
+	 */
+	async deleteTags(
+		teamName: string,
+		projectName: string,
+		data: {
+			keys: string[];
+			tags: string[];
+		},
+	) {
+		return (await this.client.request(
+			`/teams/${teamName}/projects/${projectName}/keys/deleteTags`,
+			{
+				method: "PATCH",
+				body: JSON.stringify(data),
+			},
+		)) as APIResponse;
+	}
 }
