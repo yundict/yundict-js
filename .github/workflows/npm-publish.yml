@@ -1,4 +1,4 @@
-name: Publish Package
+name: Publish to npm
 
 on:
   push:
@@ -20,18 +20,10 @@ jobs:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
       - name: Update npm
         run: npm install -g npm@latest
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm test
-        env:
-          YUNDICT_API_TOKEN: ${{ secrets.YUNDICT_API_TOKEN }}
-          YUNDICT_API_ENDPOINT: ${{ secrets.YUNDICT_API_ENDPOINT }}
       - run: |
           TAG_NAME=${{ github.ref_name }}
           VERSION=${TAG_NAME#v}
@@ -45,5 +37,3 @@ jobs:
             echo "Publishing with default tag 'latest'..."
             npm publish
           fi
-      - name: Publish to JSR
-        run: npx jsr publish

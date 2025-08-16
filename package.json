@@ -1,6 +1,6 @@
 {
 	"name": "yundict",
-	"version": "0.1.9-beta.2",
+	"version": "0.1.9-beta.3",
 	"description": "The official Node.js / Typescript library for the Yundict API",
 	"type": "module",
 	"keywords": [
