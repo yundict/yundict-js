@@ -185,6 +185,7 @@ test("Add tags to multiple keys", async () => {
 					content: "Main test content",
 				},
 			],
+			tags: ["initial-tag", "new-tag", "another-tag"],
 		},
 	);
 	expect(createMainRes.success).toBeTrue();
@@ -202,45 +203,20 @@ test("Add tags to multiple keys", async () => {
 					content: "Test content",
 				},
 			],
+			tags: ["initial-tag", "new-tag", "another-tag"],
 		},
 	);
 	expect(createRes.success).toBeTrue();
 
-	// Set initial tags for both keys to ensure clean state
-	const updateRes1 = await yundict.keys.update(
-		TEST_CONFIG.TEAM_NAME,
-		TEST_CONFIG.PROJECT_NAME,
-		mainKey,
-		{
-			name: mainKey,
-			tags: ["initial-tag"],
-		},
-	);
-
-	expect(updateRes1.success).toBeTrue();
-
-	const updateRes2 = await yundict.keys.update(
-		TEST_CONFIG.TEAM_NAME,
-		TEST_CONFIG.PROJECT_NAME,
-		anotherKey,
-		{
-			name: anotherKey,
-			tags: ["initial-tag"],
-		},
-	);
-	expect(updateRes2.success).toBeTrue();
-
-	// Add tags to multiple keys
+	// Batch add tags to both keys
 	const addTagsRes = await yundict.keys.addTags(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		{
 			keys: [mainKey, anotherKey],
-			tags: ["new-tag", "another-tag"],
+			tags: ["batch-tag1", "batch-tag2"],
 		},
 	);
-
-	// Verify API call was successful
 	expect(addTagsRes.success).toBeTrue();
 
 	// Verify tags were added by fetching the keys
@@ -260,15 +236,14 @@ test("Add tags to multiple keys", async () => {
 	expect(key1.data).toBeDefined();
 	expect(key2.data).toBeDefined();
 
-	if (key1.data && key2.data) {
-		// Verify both keys have the original and new tags
-		expect(key1.data.tags).toContain("initial-tag");
-		expect(key1.data.tags).toContain("new-tag");
-		expect(key1.data.tags).toContain("another-tag");
-		expect(key2.data.tags).toContain("initial-tag");
-		expect(key2.data.tags).toContain("new-tag");
-		expect(key2.data.tags).toContain("another-tag");
-	}
+	expect(key1?.data?.tags).toContain("initial-tag");
+	expect(key1?.data?.tags).toContain("new-tag");
+	expect(key1?.data?.tags).toContain("another-tag");
+	expect(key2?.data?.tags).toContain("initial-tag");
+	expect(key2?.data?.tags).toContain("new-tag");
+	expect(key2?.data?.tags).toContain("another-tag");
+	expect(key2?.data?.tags).toContain("batch-tag1");
+	expect(key2?.data?.tags).toContain("batch-tag2");
 
 	// Clean up: delete both test keys
 	const deleteRes1 = await yundict.keys.delete(
@@ -287,9 +262,27 @@ test("Add tags to multiple keys", async () => {
 });
 
 test("Delete tags from multiple keys", async () => {
+	// Create main key for testing with a unique name
+	const mainKey = `${TEST_CONFIG.KEY_NAME}_delete_${Date.now()}`;
+	const createRes = await yundict.keys.create(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		{
+			name: mainKey,
+			translations: [
+				{
+					language: "en",
+					content: "Test content for delete",
+				},
+			],
+			tags: ["delete-me", "keep-me", "another-delete-me"],
+		},
+	);
+	expect(createRes.success).toBeTrue();
+
 	// Create another key for testing with a unique name
 	const anotherKey = `${TEST_CONFIG.KEY_NAME}_delete_${Date.now()}`;
-	const createRes = await yundict.keys.create(
+	const createRes2 = await yundict.keys.create(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		{
@@ -300,39 +293,17 @@ test("Delete tags from multiple keys", async () => {
 					content: "Test content for delete",
 				},
 			],
-		},
-	);
-	expect(createRes.success).toBeTrue();
-
-	// Set up both keys with the tags we want to test deleting
-	const updateRes1 = await yundict.keys.update(
-		TEST_CONFIG.TEAM_NAME,
-		TEST_CONFIG.PROJECT_NAME,
-		TEST_CONFIG.KEY_NAME,
-		{
-			name: TEST_CONFIG.KEY_NAME,
 			tags: ["delete-me", "keep-me", "another-delete-me"],
 		},
 	);
-	expect(updateRes1.success).toBeTrue();
-
-	const updateRes2 = await yundict.keys.update(
-		TEST_CONFIG.TEAM_NAME,
-		TEST_CONFIG.PROJECT_NAME,
-		anotherKey,
-		{
-			name: anotherKey,
-			tags: ["delete-me", "keep-me", "another-delete-me"],
-		},
-	);
-	expect(updateRes2.success).toBeTrue();
+	expect(createRes2.success).toBeTrue();
 
 	// Delete specific tags from multiple keys
 	const deleteTagsRes = await yundict.keys.deleteTags(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
 		{
-			keys: [TEST_CONFIG.KEY_NAME, anotherKey],
+			keys: [mainKey, anotherKey],
 			tags: ["delete-me", "another-delete-me"],
 		},
 	);
@@ -344,7 +315,7 @@ test("Delete tags from multiple keys", async () => {
 	const key1 = await yundict.keys.get(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
-		TEST_CONFIG.KEY_NAME,
+		mainKey,
 	);
 	const key2 = await yundict.keys.get(
 		TEST_CONFIG.TEAM_NAME,
@@ -357,17 +328,22 @@ test("Delete tags from multiple keys", async () => {
 	expect(key1.data).toBeDefined();
 	expect(key2.data).toBeDefined();
 
-	if (key1.data && key2.data) {
-		// Verify specific tags were deleted while others remain
-		expect(key1.data.tags).not.toContain("delete-me");
-		expect(key1.data.tags).not.toContain("another-delete-me");
-		expect(key1.data.tags).toContain("keep-me");
-		expect(key2.data.tags).not.toContain("delete-me");
-		expect(key2.data.tags).not.toContain("another-delete-me");
-		expect(key2.data.tags).toContain("keep-me");
-	}
+	// Verify specific tags were deleted while others remain
+	expect(key1?.data?.tags).not.toContain("delete-me");
+	expect(key1?.data?.tags).not.toContain("another-delete-me");
+	expect(key1?.data?.tags).toContain("keep-me");
+	expect(key2?.data?.tags).not.toContain("delete-me");
+	expect(key2?.data?.tags).not.toContain("another-delete-me");
+	expect(key2?.data?.tags).toContain("keep-me");
 
 	// Clean up: delete the additional key
+	const deleteMainKey = await yundict.keys.delete(
+		TEST_CONFIG.TEAM_NAME,
+		TEST_CONFIG.PROJECT_NAME,
+		mainKey,
+	);
+	expect(deleteMainKey.success).toBeTrue();
+
 	const deleteRes = await yundict.keys.delete(
 		TEST_CONFIG.TEAM_NAME,
 		TEST_CONFIG.PROJECT_NAME,
