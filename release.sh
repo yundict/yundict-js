@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Release new version script
-# Usage: ./release-simple.sh <version>
+# Usage: ./release.sh <version>
 
 set -e
 
