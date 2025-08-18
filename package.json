@@ -18,7 +18,7 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc && npx tsc-esm-fix",
 		"test": "bun test",
 		"check": "biome check",
 		"format": "biome check --write"
